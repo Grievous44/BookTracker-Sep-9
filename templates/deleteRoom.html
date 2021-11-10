@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <!--Things in the head are not visible to the user-->
+    <head>
+        <meta charset='utf-8'>
+        <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+        <meta name='viewport' content='width=device-width, initial-scale=1'>
+        <title>IA Project</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <link rel= "stylesheet" type= text/css href = "../static/Style.css">
+       <!-- #PageTitle is the words that are next to the tabs at the top-->
+    </head>
+    <!--Things in the body are seen by the user-->
+    <body>
+        <header>
+        <div class= "topHeader">
+            <p> Materials Reservation System</p>
+        </div>
+        <nav>
+            <ul>
+                <li> <a href= "/"> Home</a> </button></li>  
+                <li> <a href= "/database"> Database </a></li>
+                <li> <a href ="/requests"> Request</a></li>
+                <li> <a href = "/report"> Report </a></li>  
+                <li> <a href = "#">Systems Maintanance </a></li>
+            </ul>
+        </nav>
+        </header>
+        <div class = "container">
+            <div class = "alert alert-danger">
+            <h1> Are you sure you want to delete {{roomItem[1]}}?</h1> <!--How to keep the title alligned with your text?-->
+            <br>
+                <form action ="/deleteRoom/{{item[0]}}" method = "POST">     
+                {% for roomItem in roomList %}
+                <option value="{{roomItem[1]}}">{{roomItem[1]}}</option>
+                {% endfor %}               
+                    <button type = "submit" class = "btn btn-danger">Yes</button>
+                    <a href = "/report" class = "btn btn-primary">No </a>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>
+
+{% for item in list %}
+    <tr>
+        <td>{{item[1]}}</td>
+        <td>{{item[2]}}</td>
+        <td>{{item[3]}}</td>
+        <td>{{item[4]}}</td>
+        <td>{{item[5]}}</td>
+        <td>
+            <a href = "/editEquipment/{{item[0]}}" class= "btn btn-warning"> Edit/Update </a>
+            <a href = "/deleteEquipment/{{item[0]}}" class = "btn btn-danger"> Delete</a>
+        </td> 
+    </tr>
+    {% endfor %}

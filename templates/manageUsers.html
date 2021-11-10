@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+    <!--Things in the head are not visible to the user-->
+    <head>
+        <meta charset='utf-8'>
+        <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+        <meta name='viewport' content='width=device-width, initial-scale=1'>
+        <title>IA Project</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <link rel= "stylesheet" type= text/css href = "../static/Style.css">
+       <!-- #PageTitle is the words that are next to the tabs at the top-->
+    </head>
+    <!--Things in the body are seen by the user-->
+    <body>
+        <header>
+            <div class= "topHeader">
+                <p> Materials Reservation System</p>
+            </div>
+            <nav>
+                <ul>
+                    <li> <a href= "/"> Home</a> </button></li>  
+                    <li> <a href= "/database"> Database </a></li>
+                    <li> <a href ="#"> Request</a></li>
+                    <li> <a href = "/report"> Report </a></li>
+                    <li> <a href = "#">Systems Maintanance </a></li>
+                </ul>
+            </nav>
+        </header>
+<div class= "container">
+    <h1> All Existing  Equipment</h1>
+    <button class ="btn btn-primary"> <a href= "/addEquipment"> addEquipment</a></button>  
+    <form action = "/searchRequest" method="post" class = "searchForm"> 
+        <input type = "search" name = "searchName" class = "form-control rounded searchField" placeholder = "Search by name" required>
+        <button type = "submit" class = "btn btn-primary"> Submit </button>
+    </form>
+    {% if list != "" %}
+    <table class = "adminTable"> <!-- Creates a table -->
+     <tr>
+        <th>Username</th>
+        <th>Role </th>
+        <th>Room</th> 
+        <th>Action</th>
+    </tr>
+
+      {% for item in list %}
+<!-- item[1] has table "equipment" with multiple qualities (id, name, quantity etc) and item[2], item[3], item[4], and item[5] have 
+    singular qualities ()-->
+    <tr>
+        <td>{{item[1]</td> <!-- Accesses the name of equipment -->
+        <td>{{item[2]</td> <!-- Accesses the category of equipment -->
+        <td>{{item[3]</td> <!-- Accesses the property of equipment -->
+        <td>
+        <form action ="/makeAdmin/{{item[0]}}" method = "POST"> 
+            <button class = "btn btn-primary"> Make Admin</button> 
+        </form>
+        <form action ="/makeTeacher/{{item[0]}}" method = "POST"> 
+            <button class = "btn btn-primary"> Make Teacher</button>    
+        </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %} <!-- If ther eis no information passed on from the datatable, then this creates a message to say that the search is empty-->
+<div class = "alert alert-danger">
+    <h4> Search not found</h4>
+</div>
+{% endif %}
+
+</div>
+</body>  
+</html>
