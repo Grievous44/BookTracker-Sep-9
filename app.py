@@ -10,10 +10,10 @@ app = Flask(__name__)
 app.secret_key = "Chloe" #Need a secret_key value for function sessions to work 
 
 my_db = mysql.connector.connect(
-    host = "localhost",
-    user = "root",
-    password = "",
-    database= "jaredDatabase"
+    host = "sql5.freemysqlhosting.net",
+    user = "sql5451739",
+    password = "f3Iwcym4r6"
+    database= "sql5451739"
 )
 
 
