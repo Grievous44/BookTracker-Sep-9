@@ -26,7 +26,7 @@ mycursor.execute("CREATE TABLE IF NOT EXISTS role (id INT AUTO_INCREMENT PRIMARY
 mycursor.execute("CREATE TABLE IF NOT EXISTS propertyName (id INT AUTO_INCREMENT PRIMARY KEY, propertyName VARCHAR(255))")
 mycursor.execute("CREATE TABLE IF NOT EXISTS dataAnalysis (id INT AUTO_INCREMENT PRIMARY KEY, teacherUsername VARCHAR(255), equipmentName VARCHAR(255), quantity VARCHAR(255), category VARCHAR(255), propertyType VARCHAR(255))")
 mycursor.execute("CREATE TABLE IF NOT EXISTS equipment (id INT AUTO_INCREMENT PRIMARY KEY, id INT, name VARCHAR (255), availableQuantity INT, totalQuantity INT, location VARCHAR(255), category VARCHAR, property VARCHAR(255))")
-mycursor.execute("CREATE TABLE IF NOT EXISTS labequipment (id INT AUTO_INCREMENT PRIMARY KEY, id INT, name VARCHAR (255), quantity INT, location VARCHAR(255), category VARCHAR(255))")
+mycursor.execute("CREATE TABLE IF NOT EXISTS labEquipment (id INT AUTO_INCREMENT PRIMARY KEY, id INT, name VARCHAR (255), quantity INT, location VARCHAR(255), category VARCHAR(255))")
 
 #mycursor.execute("CREATE TABLE IF NOT EXISTS equipment (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), quantity VARCHAR(255), location VARCHAR(255), category VARCHAR(255), property VARCHAR(255))")
 #mycursor.execute creates a table for items in a database. 
