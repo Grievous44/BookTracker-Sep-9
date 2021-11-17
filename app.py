@@ -12,7 +12,7 @@ app.secret_key = "Chloe" #Need a secret_key value for function sessions to work
 my_db = mysql.connector.connect(
     host = "sql5.freemysqlhosting.net",
     user = "sql5451739",
-    password = "f3Iwcym4r6"
+    password = "f3Iwcym4r6",
     database= "sql5451739"
 )
 
