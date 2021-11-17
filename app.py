@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, session, redirect
 import mysql.connector
-import pandas as pd
 import matplotlib
 import matplotlib.pyplot as plt
 import gunicorn 
