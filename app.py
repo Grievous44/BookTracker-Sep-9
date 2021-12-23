@@ -1,29 +1,31 @@
 from flask import Flask, render_template, request, session, redirect
 import mysql.connector
+import pandas as pd
 import matplotlib
 import gunicorn 
 
 #Initialize variable
 app = Flask(__name__)
+app=Flask(__name__,template_folder='templates')
 app.secret_key = "Chloe" #Need a secret_key value for function sessions to work 
 
 my_db = mysql.connector.connect(
-    host = "sql5.freemysqlhosting.net",
-    user = "sql5451739",
-    password = "f3Iwcym4r6",
-    database= "sql5451739"
+    host = "MYSQL5034.site4now.net",
+    user = "a72a5e_labia",
+    password = "Inventory2021@",
+    database= "db_a72a5e_labia"
 )
 
-
 mycursor= my_db.cursor() #Create a cursor to implement functions
+mycursor = my_db.cursor(buffered =True)
 mycursor.execute("CREATE TABLE IF NOT EXISTS users (id INT AUTO_INCREMENT PRIMARY KEY, username VARCHAR(255), password VARCHAR(255), role VARCHAR(255), roomName VARCHAR (255))")
 mycursor.execute("CREATE TABLE IF NOT EXISTS requests (id INT AUTO_INCREMENT PRIMARY KEY, equipmentID INT, username VARCHAR(255), status VARCHAR (255), quantity VARCHAR (255), roomName VARCHAR (255))")
 mycursor.execute("CREATE TABLE IF NOT EXISTS roomName (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255))")
 mycursor.execute("CREATE TABLE IF NOT EXISTS categoryName (id INT AUTO_INCREMENT PRIMARY KEY, category VARCHAR(255))")
 mycursor.execute("CREATE TABLE IF NOT EXISTS role (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255))")
-mycursor.execute("CREATE TABLE IF NOT EXISTS propertyName (id INT AUTO_INCREMENT PRIMARY KEY, propertyName VARCHAR(255))")
+mycursor.execute("CREATE TABLE IF NOT EXISTS propertyName (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255))")
 mycursor.execute("CREATE TABLE IF NOT EXISTS dataAnalysis (id INT AUTO_INCREMENT PRIMARY KEY, teacherUsername VARCHAR(255), equipmentName VARCHAR(255), quantity VARCHAR(255), category VARCHAR(255), propertyType VARCHAR(255))")
-mycursor.execute("CREATE TABLE IF NOT EXISTS equipment (id INT AUTO_INCREMENT PRIMARY KEY, id INT, name VARCHAR (255), availableQuantity INT, totalQuantity INT, location VARCHAR(255), category VARCHAR, property VARCHAR(255))")
+mycursor.execute("CREATE TABLE IF NOT EXISTS equipment (id INT AUTO_INCREMENT PRIMARY KEY, id INT, name VARCHAR (255), availableQuantity INT, totalQuantity INT, location VARCHAR(255), category VARCHAR (255), property VARCHAR(255))")
 mycursor.execute("CREATE TABLE IF NOT EXISTS labEquipment (id INT AUTO_INCREMENT PRIMARY KEY, id INT, name VARCHAR (255), quantity INT, location VARCHAR(255), category VARCHAR(255))")
 
 #mycursor.execute("CREATE TABLE IF NOT EXISTS equipment (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), quantity VARCHAR(255), location VARCHAR(255), category VARCHAR(255), property VARCHAR(255))")
@@ -424,10 +426,7 @@ def login():
             session['roomName'] = result[1]
             session["role"] = result[0]
 
-            if result[0] == "teacher":
-                return render_template("homeTeacher.html", user = session['username'])
-            else:
-                return render_template("home.html", user = session['username'])
+            return redirect("/")
         else:
             return render_template("login.html")                
 
@@ -438,10 +437,6 @@ def login():
 def logout():
     session.pop("username", None)
     return render_template("login.html")     
-     
-if __name__ == '__main__':
-    app.run()
-    #Running the variable that we initialized earlier. 
 
 @app.route("/search", methods = ["POST", "GET"])
 def search():
@@ -460,46 +455,42 @@ def search():
         if session['role'] == "teacher":
             return render_template("myEquipment.html", list = myList) #Return back to the HTML file with a datatable of found values
         else:
-            return render_template("databaseEquipment.html")
+            return render_template("databaseEquipment.html", list = myList)
 
 @app.route("/searchRequest", methods=['POST', 'GET'])
 def searchRequest():
     if request.method == "POST":
         name = request.form.get("searchName")
 
-        sql = "SELECT id, name, availableQuantity, totalQuantity, location, category, property FROM equipment WHERE name=%s"
+        sql = "SELECT id, name, availableQuantity, location, category, property, totalQuantity FROM equipment WHERE name=%s"
         value = [name]
 
         mycursor.execute(sql, value)
 
         result = mycursor.fetchall()
         
-        id_list = []
-
-        for item in result:
-            id_list.append(item[0])
-        
         mylist = []
-        
-        if len(result) > 0:
-            sql = "SELECT id,equipmentID,status,quantity FROM requests WHERE equipmentID=%s"
 
-            requestResults = []
+        if len(result) >0:
+            id_list = []
 
-            for i in id_list:
-                values = [i]
-                mycursor.execute(sql,values)
-                requestResults.append(mycursor.fetchone())
+            for item in result:
+                id_list.append(item[0])
+            
+            if len(result) > 0:
+                sql = "SELECT id, equipmentID, username, status, quantity, roomName FROM requests WHERE equipmentID=%s"
+                mycursor.execute (sql, id_list)
+                requestResults = mycursor.fetchall()
 
             for element in requestResults:
                 for equipment in result:
                     if element[1] == equipment[0]:
-                        mylist.append([element[0],equipment, element[2], element[3]])
+                        mylist.append([element[0],equipment, element[2], element[3], element[4], element[5]])
 
         if session['role'] == "teacher":
             return render_template("myEquipment.html", list=mylist)
         else:
-            return render_template("requests.html", list=mylist)
+            return render_template("requests.html", list=mylist,roomName = session["roomName"])
 
     
     
@@ -851,3 +842,6 @@ def dataSummary():
     else:
         return render_template(dataAnalysis.html, dataAnalysisList = "")
 
+if __name__ == '__main__':
+    app.run()
+    #Running the variable that we initialized earlier. 
