@@ -15,7 +15,7 @@ my_db = mysql.connector.connect(
     user = "a72a5e_labia",
     password = "Inventory2021@",
     database= "db_a72a5e_labia"
-
+)
 
 mycursor= my_db.cursor() #Create a cursor to implement functions
 mycursor = my_db.cursor(buffered =True)
