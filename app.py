@@ -517,7 +517,7 @@ def signup():
             my_db.commit()
 
             if signUpRole == "teacher":
-                return render_template("home.html", user = session['username'])
+                return render_template("homeTeacher.html", user = session['username'])
             else: 
                 return render_template("home.html", user = session['username'])
         else:
