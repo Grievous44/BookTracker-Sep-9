@@ -502,6 +502,7 @@ def signup():
         username = request.form.get("userName")
         password = request.form.get("password")
         confirmPassword = request.form.get("confirmPassword")
+        signUpRole = request.form.get("role")
         roomName = request.form.get("roomName")
             #confirm userName has not been taken 
             #if all good, save info into data base 
@@ -512,11 +513,13 @@ def signup():
 
             sql = "INSERT INTO users (username, password, role, roomName) VALUES (%s,%s,%s,%s)"
             values = [username, password, role, roomName]
-
             mycursor.execute(sql, values)
             my_db.commit()
 
-            return render_template("home.html", user = session['username'],)
+            if signUpRole == "teacher":
+                return render_template("home.html", user = session['username'])
+            else: 
+                return render_template("home.html", user = session['username'])
         else:
             return render_template("signup.html")                
 

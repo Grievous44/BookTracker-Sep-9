@@ -26,6 +26,12 @@
                         <input class = "form-control" type= "password" name = "confirmPassword" id = "confirmPassword" placeholder= "Confirm password" required>
                     </p>
                     <select class="form-select" aria-label="Default select example" name = "roomName" required >
+                        <option value = "">Select role</option>
+                        {% for roomItem in roomList %}
+                        <option value="{{roomItem[1]}}">{{roomItem[1]}}</option>
+                        {% endfor %}
+                    </select>
+                    <select class="form-select" aria-label="Default select example" name = "roomName" required >
                         <option value = "">Select science location</option>
                         {% for roomItem in roomList %}
                         <option value="{{roomItem[1]}}">{{roomItem[1]}}</option>
