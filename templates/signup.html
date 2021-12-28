@@ -25,17 +25,16 @@
                     <p>
                         <input class = "form-control" type= "password" name = "confirmPassword" id = "confirmPassword" placeholder= "Confirm password" required>
                     </p>
-                    <select class="form-select" aria-label="Default select example" name = "roomName" required >
-                        <option value = "">Select role</option>
+                    <select class="form-select" aria-label="Default select example" name = "roomName" optional >
+                        <option value = "">Select science room location</option>
                         {% for roomItem in roomList %}
                         <option value="{{roomItem[1]}}">{{roomItem[1]}}</option>
                         {% endfor %}
                     </select>
-                    <select class="form-select" aria-label="Default select example" name = "roomName" required >
-                        <option value = "">Select science location</option>
-                        {% for roomItem in roomList %}
-                        <option value="{{roomItem[1]}}">{{roomItem[1]}}</option>
-                        {% endfor %}
+                    <select class="form-select" aria-label="Default select example" name = "signUpRole" required >
+                        <option value = "">Select role</option>
+                        <option value="{{teacher}}">{{"teacher"}}</option>
+                        <option value="{{admin}}">{{"admin"}}</option>
                     </select>
                     <p>
                     <input class ="btn btn-primary" type = "submit">
