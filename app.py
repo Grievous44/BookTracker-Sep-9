@@ -9,13 +9,15 @@ app = Flask(__name__)
 app=Flask(__name__,template_folder='templates')
 app.secret_key = "Chloe" #Need a secret_key value for function sessions to work 
 
-my_db = mysql.connector.connect(
-
+my_db = mysql.connector.connect
     host = "MYSQL5034.site4now.net",
     user = "a72a5e_labia",
     password = "Inventory2021@",
     database= "db_a72a5e_labia"
+<<<<<<< HEAD
 )
+=======
+>>>>>>> 148449e933435bbacd561aee5d4d2966c296a0f6
 
 mycursor= my_db.cursor() #Create a cursor to implement functions
 mycursor = my_db.cursor(buffered =True)
