@@ -20,38 +20,18 @@
             <ul>
                 <li> <a href= "/"> Home</a> </button></li>  
                 <li> <a href= "/database"> Database </a></li>
-                <li> <a href ="/requests"> Request</a></li>
-                <li> <a href = "/report"> Report </a></li>  
-                <li> <a href = "#">Systems Maintanance </a></li>
             </ul>
         </nav>
         </header>
         <div class = "container">
             <div class = "alert alert-danger">
-            <h1> Are you sure you want to delete {{roomItem[1]}}?</h1> <!--How to keep the title alligned with your text?-->
+            <h1> Are you sure you want to delete {{item[1]}}?</h1>
             <br>
-                <form action ="/deleteRoom/{{item[0]}}" method = "POST">     
-                {% for roomItem in roomList %}
-                <option value="{{roomItem[1]}}">{{roomItem[1]}}</option>
-                {% endfor %}               
+                <form action ="/deleteRoom/{{item[0]}}" method = "POST">                    
                     <button type = "submit" class = "btn btn-danger">Yes</button>
-                    <a href = "/report" class = "btn btn-primary">No </a>
+                    <a href = "/" class = "btn btn-primary">No </a>
                 </form>
             </div>
         </div>
     </body>
 </html>
-
-{% for item in list %}
-    <tr>
-        <td>{{item[1]}}</td>
-        <td>{{item[2]}}</td>
-        <td>{{item[3]}}</td>
-        <td>{{item[4]}}</td>
-        <td>{{item[5]}}</td>
-        <td>
-            <a href = "/editEquipment/{{item[0]}}" class= "btn btn-warning"> Edit/Update </a>
-            <a href = "/deleteEquipment/{{item[0]}}" class = "btn btn-danger"> Delete</a>
-        </td> 
-    </tr>
-    {% endfor %}

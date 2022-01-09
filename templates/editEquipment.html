@@ -20,47 +20,57 @@
             <ul>
                 <li> <a href= "/"> Home</a> </button></li>  
                 <li> <a href= "/database"> Database </a></li>
-                <li> <a href ="/requests"> Request</a></li>
-                <li> <a href = "/report"> Report </a></li>  
-                <li> <a href = "#">Systems Maintanance </a></li>
             </ul>
         </nav>
         </header>
         <h1> Edit Equipment </h1>
         <br>
-        <form action ="/editEquipment/{{item[0]}}" method = "POST">
+        <form action ="/editEquipment/{{item[0]}}" method = "POST"> <!--Initializes the editEquipment function with method Post-->
             <p>
                 <input class= "form-control" type ="text" name = "equipmentName" placeholder= "Name" required value = {{item[1]}}>
+                <!--Takes an input from the user. The code recognizes the input as equipmentName, but the user views this input as Name-->
             </p>
             <p>
-                <input hidden class = "form-control" type= "text" name = "equipmentQuantity" placeholder= "Available Quantity" value = {{item[2]}}>
+                <input class = "form-control" type= "text" name = "equipmentQuantity" placeholder= "Available Quantity" value = {{item[2]}}>
             </p>
+            <!--Takes an input from the user. The code recognizes the input as equipmentQuantity, but the user views this input as 
+            AvailableQuantity-->
             <p>
-                <input hidden class = "form-control" type= "text" name = "originalEquipmentTotalQuantity" placeholder= "TotalQuantity" value = {{item[3]}}>
+                <input hidden class = "form-control" type= "text" name = "originalEquipmentTotalQuantity" value = {{item[3]}}>
             </p>
+            <!--Input is hidden from the user. This code is sent to store the value of the originalEquipmentTotalQuantity!-->
             <p>
                 <input class = "form-control" type= "text" name = "equipmentTotalQuantity" placeholder= "TotalQuantity" required value = {{item[3]}}>
             </p>
+            <!--Takes an input from the user. The code recognizes the input as equipmentTotalQuantity, but the user views this input as 
+            TotalQuantity-->
             <select class="form-select" aria-label="Default select example" name = "equipmentLocation" required >
-                <option value = "">Select science location</option>
-                {% for roomItem in roomList %}
-                <option value="{{roomItem[1]}}">{{roomItem[1]}}</option>
+            <!--Takes an input from the user-->
+                <option value = "">Select science location</option> 
+                {% for roomItem in roomList %} <!-- Creates a for loop for each item in the variable roomList sent in the editEquipment html
+                file-->
+                <option value="{{roomItem[1]}}">{{roomItem[1]}}</option> <!--Prints out the name of each room-->
                 {% endfor %}
             </select>
             <select class="form-select" aria-label="Default select example" name = "equipmentCategory" required >
-                <option value = "">Select science category</option>
+                <!--Takes an input from the user-->
+                <option value = "">Select science category</option><!-- Creates a for loop for each item in the variable categoryList sent 
+                    in the editEquipment htmlfile-->
                 {% for categoryItem in categoryList %}
-                <option value="{{categoryItem[1]}}">{{categoryItem[1]}}</option>
+                <option value="{{categoryItem[1]}}">{{categoryItem[1]}}</option><!--Prints out the name of each category-->
                 {% endfor %}
             </select>
             <select class="form-select" aria-label="Default select example" name = "equipmentProperty" required >
-                <option value = "">Select type of equipment</option>
-                {% for propertyItem in propertyList %}
+                <!--Takes an input from the user-->
+                <option value = "">Select type of equipment</option><!-- Creates a for loop for each item in the variable propertyList 
+                    sent in the editEquipment htmlfile-->
+                {% for propertyItem in propertyList %} <!--Prints out the name of each category-->
                 <option value="{{propertyItem[1]}}">{{propertyItem[1]}}</option>
                 {% endfor %}
             </select>
             <p>
             <button type = "submit" class ="btn btn-primary"> Update Equipment</button>
+            <!--Allows for a submission of the inputs from the user-->
             </p>
         </form>
     </body>

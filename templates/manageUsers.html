@@ -20,15 +20,11 @@
                 <ul>
                     <li> <a href= "/"> Home</a> </button></li>  
                     <li> <a href= "/database"> Database </a></li>
-                    <li> <a href ="#"> Request</a></li>
-                    <li> <a href = "/report"> Report </a></li>
-                    <li> <a href = "#">Systems Maintanance </a></li>
                 </ul>
             </nav>
         </header>
 <div class= "container">
-    <h1> All Existing  Equipment</h1>
-    <button class ="btn btn-primary"> <a href= "/addEquipment"> addEquipment</a></button>  
+    <h1> All Existing  Users</h1>
     <form action = "/searchRequest" method="post" class = "searchForm"> 
         <input type = "search" name = "searchName" class = "form-control rounded searchField" placeholder = "Search by name" required>
         <button type = "submit" class = "btn btn-primary"> Submit </button>
@@ -46,15 +42,18 @@
 <!-- item[1] has table "equipment" with multiple qualities (id, name, quantity etc) and item[2], item[3], item[4], and item[5] have 
     singular qualities ()-->
     <tr>
-        <td>{{item[1]</td> <!-- Accesses the name of equipment -->
-        <td>{{item[2]</td> <!-- Accesses the category of equipment -->
-        <td>{{item[3]</td> <!-- Accesses the property of equipment -->
+        <td>{{item[1]}}</td> <!-- Accesses the name of equipment -->
+        <td>{{item[2]}}</td> <!-- Accesses the category of equipment -->
+        <td>{{item[3]}}</td> <!-- Accesses the property of equipment -->
         <td>
         <form action ="/makeAdmin/{{item[0]}}" method = "POST"> 
             <button class = "btn btn-primary"> Make Admin</button> 
         </form>
         <form action ="/makeTeacher/{{item[0]}}" method = "POST"> 
             <button class = "btn btn-primary"> Make Teacher</button>    
+        </form>
+        <form action ="/deleteUser/{{item[0]}}" method = "POST"> 
+            <button class = "btn btn-primary"> Delete User</button>   
         </form>
         </td>
     </tr>

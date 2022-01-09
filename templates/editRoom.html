@@ -13,18 +13,25 @@
     <!--Things in the body are seen by the user-->
     <body>
         <header>
-            <div class= "topHeader">
-                <p> Materials Reservation System</p>
-            </div>
-            <nav>
-                <ul>
-                    <li> <a href= "/"> Home</a> </button></li>  
-                    <li> <a href = "/deleteRoom{{roomList}}"> deleteRoom</a> </button></li> <!--What to put in as the parameter, because I want to put a list in, but the post method needs an ID-->
-
-                    <li> <a href = "/deleteCategory"> deleteCategory</a> </button></li>
-                    <li> <a href = "/deleteProperty"> deleteProperty</a> </button></li>
-                </ul>
-            </nav>
+        <div class= "topHeader">
+            <p> Materials Reservation System</p>
+        </div>
+        <nav>
+            <ul>
+                <li> <a href= "/"> Home</a> </button></li>  
+                <li> <a href= "/database"> Database </a></li>
+            </ul>
+        </nav>
         </header>
+        <h1> Edit Room </h1>
+        <br>
+        <form action ="/editRoom{{item[0]}}" method = "POST">
+            <p>
+                <input class= "form-control" type ="text" name = "roomName" placeholder= "Name" required value = {{item[1]}}>
+            </p>
+            <p></p>
+            <button type = "submit" class ="btn btn-primary"> Update Room</button>
+            </p>
+        </form>
     </body>
 </html>

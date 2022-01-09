@@ -19,12 +19,38 @@
         <nav>
             <ul>
                 <li> <a href= "/"> Home</a> </button></li>  
-                <li> <a href= "#"> Database </a></li>
-                <li> <a href ="#"> Request</a></li>
-                <li> <a href = "/report"> Report </a></li>  
-                <li> <a href = "#">Systems Maintanance </a></li>
+                <li> <a href= "/database"> Database </a></li>
             </ul>
         </nav>
-    </header>
-    </body>
+        </header>
+<div class= "container">
+    <h1> All Existing  Equipment in dataAnalysis</h1>
+    <form action = "/search" method="post" class = "searchForm"> 
+        <input type = "search" name = "searchName" class = "form-control rounded searchField" placeholder = "Search by name" required>
+        <button type = "submit" class = "btn btn-primary"> Submit </button>
+    </form>
+    {% if list != "" %}
+    <table class = "adminTable">
+     <tr>
+        <th>Equipment Name</th>
+        <th>Action</th>
+    </tr>
+
+      {% for item in list %}
+    <tr>
+        <td>{{item[1]}}</td>
+        <td>
+            <a href = "/deleteDataAnalysis/{{item[0]}}" class = "btn btn-danger"> Delete</a>
+        </td> 
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<div class = "alert alert-danger">
+    <h4> No existing databaseAnalysis equipment</h4>
+</div>
+{% endif %}
+
+</div>
+</body>  
 </html>

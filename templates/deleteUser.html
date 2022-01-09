@@ -13,18 +13,25 @@
     <!--Things in the body are seen by the user-->
     <body>
         <header>
-            <div class= "topHeader">
-                <p> Materials Reservation System</p>
-            </div>
-            <nav>
-                <ul>
-                    <li> <a href= "/"> Home</a> </button></li>  
-                    <li> <a href = "/addFunction"> addFunction</a> </button></li>
-                    <li> <a href = "/addRoom"> addRoom</a> </button></li>
-                    <li> <a href = "/addCategory"> addCategory</a> </button></li>
-                    <li> <a href = "/addProperty"> addProperty</a> </button></li>
-                </ul>
-            </nav>
+        <div class= "topHeader">
+            <p> Materials Reservation System</p>
+        </div>
+        <nav>
+            <ul>
+                <li> <a href= "/"> Home</a> </button></li>  
+                <li> <a href= "/database"> Database </a></li>
+            </ul>
+        </nav>
         </header>
+        <div class = "container">
+            <div class = "alert alert-danger">
+            <h1> Are you sure you want to delete {{item[1]}}?</h1>
+            <br>
+                <form action ="/deleteUser/{{item[0]}}" method = "POST">                    
+                    <button type = "submit" class = "btn btn-danger">Yes</button>
+                    <a href = "/home" class = "btn btn-primary">No </a>
+                </form>
+            </div>
+        </div>
     </body>
 </html>

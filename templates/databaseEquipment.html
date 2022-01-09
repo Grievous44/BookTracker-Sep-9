@@ -17,13 +17,12 @@
             <p> Materials Reservation System</p>
         </div>
         <nav>
-            <ul>
-                <li> <a href= "/"> Home</a> </button></li>  
-                <li> <a href= "/database"> Database </a></li>
-                <li> <a href ="/requests"> Request</a></li>
-                <li> <a href = "/report"> Report </a></li>  
-                <li> <a href = "#">Systems Maintanance </a></li>
-            </ul>
+            <nav>
+                <ul>
+                    <li> <a href= "/"> Home</a> </button></li>  
+                    <li> <a href= "/database"> Database </a></li>
+                </ul>
+            </nav>
         </nav>
         </header>
 <div class= "container">
@@ -39,8 +38,8 @@
         <th>Name</th>
         <th>availableQuantity</th>
         <th>totalQuantity</th> 
-        <th>Location</th>
         <th>Category</th>
+        <th>Location</th>
         <th>Property</th>
         <th>Action</th>
     </tr>
@@ -62,7 +61,7 @@
 </table>
 {% else %}
 <div class = "alert alert-danger">
-    <h4> Search not found</h4>
+    <h4> No existing equipment</h4>
 </div>
 {% endif %}
 

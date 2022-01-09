@@ -20,18 +20,19 @@
             <ul>
                 <li> <a href= "/"> Home</a> </button></li>  
                 <li> <a href= "/database"> Database </a></li>
-                <li> <a href ="/requests"> Request</a></li>
-                <li> <a href = "/report"> Report </a></li>  
-                <li> <a href = "#">Systems Maintanance </a></li>
             </ul>
         </nav>
         </header>
 <h1> All Existing  Property</h1>
-{% if propertyList != "" %}
 <div class= "container">
-    <button class ="btn btn-primary"> <a href = "/addProperty"> Add property </a></button>
+    <button class ="btn btn-primary"> <a href= "/addProperty"> addProperty</a></button>  
+    <form action = "/search" method="post" class = "searchForm"> 
+        <input type = "search" name = "searchName" class = "form-control rounded searchField" placeholder = "Search by name" required>
+        <button type = "submit" class = "btn btn-primary"> Submit </button>
+    </form>
+{% if propertyList != "" %}
 <table class = "adminTable">
- <tr>
+<tr>
     <th>Category</th>
     <th>Action </th>
 </tr>
@@ -44,6 +45,12 @@
     </td> 
 </tr>
 {% endfor %}
+{% else %}
+</table>
+<div class = "alert alert-danger">
+    <h4> No existing property</h4>
+</div>
+
 {% endif %}
 </div>
 </body>

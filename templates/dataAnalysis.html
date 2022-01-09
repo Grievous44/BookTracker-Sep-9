@@ -13,23 +13,21 @@
     <!--Things in the body are seen by the user-->
     <body>
         <header>
-            <div class= "topHeader">
+            <div class= "topHeader"> <!--Header seen by the user-->
                 <p> Materials Reservation System</p>
             </div>
             <nav>
                 <ul>
                     <li> <a href= "/"> Home</a> </button></li>  
                     <li> <a href= "/database"> Database </a></li>
-                    <li> <a href ="#"> Request</a></li>
-                    <li> <a href = "/report"> Report </a></li>
-                    <li> <a href = "#">Systems Maintanance </a></li>
                 </ul>
             </nav>
         </header>
 <div class= "container">
     <h1> Data Analysis</h1>
-    <form action = "/dataSummary" method= "post" class = "searchForm"> 
-    <select class="form-select searchField" aria-label="Default select example" name = "dataFilter" required >
+    <form action = "/dataSummary" method= "post" class = "searchForm"> <!--Creates a search function that requires the post method-->
+    <select class="form-select searchField" aria-label="Default select example" name = "dataFilter" required > <!--Selection for search 
+                                                                                                        fields for differnet qualities-->
         <option value = "">Select quality</option>
         <option value="teacherUsername">TeacherUsername</option>
         <option value="equipmentName">EquipmentName</option>
@@ -37,16 +35,18 @@
         <option value="category">Category</option>
         <option value="propertyType">PropertyType</option>
     </select>    
-    <select class="form-select searchField" aria-label="Default select example" name = "yAxisFilter" required >
+    <select class="form-select searchField" aria-label="Default select example" name = "yAxisFilter" required > <!--Search field selection 
+                                                                                                                types -->
         <option value = "">Select filter</option>
         <option value="1">Averages</option>
         <option value="2">Min</option>
         <option value="3">Max</option>
         <option value="4">Total Count</option>
     </select>  
-        <button type = "submit" class = "btn btn-primary"> Submit </button>
+        <button type = "submit" class = "btn btn-primary"> Submit </button> <!--After the user presses submit, the selections from above will 
+                                                                            enter into dataSummary function in app.py-->
     </form>
-    {% if dataAnalysisList != "" %}
+    {% if dataAnalysisList != "" %} <!--Checks whether the database has values after submission -->
     <table class = "adminTable"> <!-- Creates a table -->
      <tr>
         <th>Category</th> 
