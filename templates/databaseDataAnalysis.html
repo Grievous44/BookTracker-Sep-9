@@ -24,21 +24,26 @@
         </nav>
         </header>
 <div class= "container">
-    <h1> All Existing  Equipment in dataAnalysis</h1>
-    <form action = "/search" method="post" class = "searchForm"> 
-        <input type = "search" name = "searchName" class = "form-control rounded searchField" placeholder = "Search by name" required>
-        <button type = "submit" class = "btn btn-primary"> Submit </button>
-    </form>
+    <h1> All Existing  equipment in Data Analysis</h1>
     {% if list != "" %}
     <table class = "adminTable">
      <tr>
         <th>Equipment Name</th>
+        <th>Teacher Name</th>
+        <th>Quantity </th>
+        <th>Category</th>
+        <th>Property Type</th>
         <th>Action</th>
+        
     </tr>
 
       {% for item in list %}
     <tr>
         <td>{{item[1]}}</td>
+        <td>{{item[2]}}</td>
+        <td>{{item[3]}}</td>
+        <td>{{item[4]}}</td>
+        <td>{{item[5]}}</td>
         <td>
             <a href = "/deleteDataAnalysis/{{item[0]}}" class = "btn btn-danger"> Delete</a>
         </td> 
@@ -47,7 +52,7 @@
 </table>
 {% else %}
 <div class = "alert alert-danger">
-    <h4> No existing databaseAnalysis equipment</h4>
+    <h4> No existing requests</h4>
 </div>
 {% endif %}
 

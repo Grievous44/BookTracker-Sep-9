@@ -31,12 +31,11 @@
     {% if list != "" %}
     <table class = "adminTable"> <!-- Creates a table -->
      <tr>
-        <th>Equipment Name</th>
-        <th>Category </th>
-        <th>Property</th> 
+        <th>Name</th>
+        <th>Location</th> 
+        <th>Category</th>
+        <th>Property Type</th>
         <th>Requested Quantity</th>
-        <th>Teacher Name</th>
-        <th>Teacher Room</th>
         <th>Status</th>
         <th>Action</th>
     </tr>
@@ -46,31 +45,21 @@
     singular qualities ()-->
     <tr>
         <td>{{item[1][1]}}</td> <!-- Accesses the name of equipment -->
-        <td>{{item[1][4]}}</td> <!-- Accesses the category of equipment -->
-        <td>{{item[1][5]}}</td> <!-- Accesses the property of equipment -->
-        <td>{{item[4]}}</td> <!-- Accesses the requestedQuantity of equipment -->
-        <td>{{item[2]}}</td> <!-- Accesses the teacherName of equipment -->
-        <td>{{item[5]}}</td>  <!-- Accesses the teacherRoom of equipment -->
+        <td>{{item[5]}}</td> <!-- Accesses the category of equipment -->
+        <td>{{item[1][4]}}</td> <!-- Accesses the property of equipment -->
+        <td>{{item[1][5]}}</td> <!-- Accesses the requestedQuantity of equipment -->
+        <td>{{item[4]}}</td>  <!-- Accesses the teacherRoom of equipment -->
         <td>{{item[3]}}</td> <!-- Accesses the status of equipment -->
 <!--item[2] doesn't have a second dimention, because item[2] only contains a list of status 
 On the other hand, item[1] has many other qualities (id, name, quantity etc), which makes it have a rank of 2-->
-        <td>
-        {% if item[3] == "Request Pending" %}
-            <form action ="/approveRequest/{{item[0]}}" method = "POST">  <!-- Utilizes the approveRequest method listed in app.py with 
-             parameter ID of equipment -->
-            <button class = "btn btn-warning"> Approve Request</button> <!-- Creates a button and shows the user a text for approve request-->
-            </form>
-        {% endif %}
-        {% if item[3] == "Return Pending" %}
-            <form action ="/approveReturn/{{item[0]}}" method = "POST">  <!-- Utilizes the returnEquipment method listed in app.py with parameter 
-                ID of equipment -->
-            <input hidden class = "form-control" type = "text" name = "equipmentId" value = {{item[1][0]}}>
-            <input hidden class = "form-control" type = "text" name = "availableQuantity" value = {{item[4]}}>
-            <input hidden class = "form-control" type = "text" name = "propertyType" value = {{item[1][5]}}>
-            <button class = "btn btn-warning"> Approve Return</button>    
-            </form>
-        {% endif %}
-        </td>
+<td>
+    {% if item[3] == "Request Approved" %}
+        <form action ="/returnEquipment/{{item[0]}}" method = "POST">
+        <!-- Utilizes the returnEquipment method listed in app.py with parameter ID of equipment -->
+        <button class = "btn btn-warning"> Return Equipment</button>    
+        </form>
+</td>
+    {% endif %}
     </tr>
     {% endfor %}
 </table>

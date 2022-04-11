@@ -31,7 +31,6 @@
         <option value = "">Select quality</option>
         <option value="teacherUsername">TeacherUsername</option>
         <option value="equipmentName">EquipmentName</option>
-        <option value="quantity">Quantity</option>
         <option value="category">Category</option>
         <option value="propertyType">PropertyType</option>
     </select>    
@@ -59,11 +58,11 @@
 <!-- item[1] has table "equipment" with multiple qualities (id, name, quantity etc) and item[2], item[3], item[4], and item[5] have 
     singular qualities ()-->
     <tr>
-        <td>{{item[0]}}</td> <!-- Accesses the name of equipment -->
-        <td>{{item[1]}}</td> <!-- Accesses the category of equipment -->
-        <td>{{item[2]}}</td> <!-- Accesses the category of equipment -->
-        <td>{{item[3]}}</td> <!-- Accesses the category of equipment -->
-        <td>{{item[4]}}</td> <!-- Accesses the category of equipment -->
+        <td>{{item[0]}}</td> <!-- Accesses the category of equipment -->
+        <td>{{item[1]}}</td> <!-- Accesses the average quantity of equipment -->
+        <td>{{item[3]}}</td> <!-- Accesses the minimum quantity of equipment -->
+        <td>{{item[2]}}</td> <!-- Accesses the maximum quantity of equipment -->
+        <td>{{item[4]}}</td> <!-- Accesses the total count of equipment -->
     </tr>
     {% endfor %}
 </table>

@@ -25,10 +25,6 @@
         </header>
 <div class= "container">
     <h1> All Existing  Users</h1>
-    <form action = "/searchRequest" method="post" class = "searchForm"> 
-        <input type = "search" name = "searchName" class = "form-control rounded searchField" placeholder = "Search by name" required>
-        <button type = "submit" class = "btn btn-primary"> Submit </button>
-    </form>
     {% if list != "" %}
     <table class = "adminTable"> <!-- Creates a table -->
      <tr>

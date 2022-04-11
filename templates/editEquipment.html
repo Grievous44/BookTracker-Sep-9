@@ -37,10 +37,11 @@
             AvailableQuantity-->
             <p>
                 <input hidden class = "form-control" type= "text" name = "originalEquipmentTotalQuantity" value = {{item[3]}}>
-            </p>
+            </p>`
             <!--Input is hidden from the user. This code is sent to store the value of the originalEquipmentTotalQuantity!-->
             <p>
-                <input class = "form-control" type= "text" name = "equipmentTotalQuantity" placeholder= "TotalQuantity" required value = {{item[3]}}>
+                <input class = "form-control" type= "text" name = "equipmentTotalQuantity" placeholder= "TotalQuantity" required value = 
+                {{item[3]}}>
             </p>
             <!--Takes an input from the user. The code recognizes the input as equipmentTotalQuantity, but the user views this input as 
             TotalQuantity-->

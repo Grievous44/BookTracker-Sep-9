@@ -1,8 +1,9 @@
-from flask import Flask, render_template, request, session, redirect
-import mysql.connector
-import pandas as pd
-import matplotlib.pyplot as plt
-import gunicorn 
+#Imported information 
+from flask import Flask, render_template, request, session, redirect #Imports funcitons for login and add, edit and delete funcitons
+import mysql.connector #Imports mySql connector to set up connections with online database
+import pandas as pd #Imported information to help plot dataAnalysis 
+import matplotlib.pyplot as plt #Imported information to help plot dataAnalysis 
+import gunicorn #Imported information to help plot dataAnalysis 
 
 #Initialize variable
 app = Flask(__name__)
@@ -27,7 +28,6 @@ mycursor.execute("CREATE TABLE IF NOT EXISTS role (id INT AUTO_INCREMENT PRIMARY
 mycursor.execute("CREATE TABLE IF NOT EXISTS propertyName (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255))")
 mycursor.execute("CREATE TABLE IF NOT EXISTS dataAnalysis (id INT AUTO_INCREMENT PRIMARY KEY, teacherUsername VARCHAR(255), equipmentName VARCHAR(255), quantity VARCHAR(255), category VARCHAR(255), propertyType VARCHAR(255))")
 mycursor.execute("CREATE TABLE IF NOT EXISTS equipment (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR (255), availableQuantity INT, totalQuantity INT, location VARCHAR(255), category VARCHAR (255), property VARCHAR(255))")
-mycursor.execute("CREATE TABLE IF NOT EXISTS labEquipment (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR (255), quantity INT, location VARCHAR(255), category VARCHAR(255))")
 
 #Homepage 
 @app.route("/") 
@@ -81,11 +81,13 @@ def approveReturn(id):
         values = [id] #Values is given parameter id 
 
         mycursor.execute(sql,values) #Commits the sql function
+        my_db.commit()
 
         sql = "DELETE FROM dataAnalysis WHERE id =%s" #Deletes the request since the return has been successful 
         values = [id] #Values is given parameter id 
 
         mycursor.execute(sql,values) #Commits the sql function
+        my_db.commit()
         #my_db.commit()#Saves the values into the database
 
     return render_template("home.html") #Returns to the homepage 
@@ -140,7 +142,7 @@ def addEquipment():
     
         sql = "INSERT INTO equipment (name, availableQuantity, totalQuantity, location, category, property) VALUES (%s, %s, %s, %s, %s, %s)"
         #Sql initializes a function to change the values inside database equipment given variable values 
-        values = [name, availableQuantity, totalQuantity, location, category, property]
+        values = [name, quantity, quantity, location, category, property]
         #Iniitializes values given variables name, availableQuantity, totalQuantity, location, category, property
         #Saving in the database 
         mycursor.execute(sql,values) #Execute is running a database command (a sql command) 
@@ -177,7 +179,7 @@ def addEquipment():
             propertyList = ""
 
         return render_template("addEquipment.html", categoryList = categoryList, roomList = roomList, propertyList = propertyList)
-        #Returns teh html file addEquipment given the parameters categoryList, roomList and propertyList
+        #Returns the html file addEquipment given the parameters categoryList, roomList and propertyList
 
 @app.route("/addRoom", methods = ["POST", "GET"])
 def addRoom():
@@ -503,19 +505,20 @@ def editEquipment(id):
         equipmentProperty = request.form.get("equipmentProperty")#initializes equipmentProperty to the equipmentProperty posted after the 
         #user enters submit 
 
+        #This code checks whether the editted totalQuantity was changed such that the availableQuantity becomes negative. 
         originalTotalQuantity = float(originalTotalQuantity) #initializes originalTotalQuantity to a float, which is a number that has 
         #decimal points
         totalQuantity = float(totalQuantity) #initializes totalQuantity to a float, which is a number that has decimal points
         availableQuantity = float(availableQuantity) #initializes availableQuantity to a float, which is a number that has decimal points
-        updatedTotalQuantity = totalQuantity -originalTotalQuantity #Initializes updatedTotalQuantity to totalQuantity -originalTotalQuantity
         difference = totalQuantity- originalTotalQuantity #Initializes difference to totalQuantity - originalTotalQuantity
         availableQuantityChecker= availableQuantity + difference #Initializes availableQuantityChecker to availableQuantity + difference
-        if(difference > availableQuantityChecker): #Checks whether the change in the totalQuantity is less than availableQuantityChecker - 
+        if(availableQuantityChecker<0): #Checks whether the change in the totalQuantity is less than availableQuantityChecker  
             return render_template("error.html", message = "Changes to total quantity makes available quantity negative ")
             #returns the error html file where the messsage sent to users is "Changes to total quantity makes available quantity negative"
         if(totalQuantity< availableQuantity): #checks if totalQuantity is less than availableQuantity
             return render_template("error.html", message = "Total quantity cannot be less than available quantity")
             #returns the error html file where the messsage sent to users is "Changes to total quantity makes available quantity negative"
+        
         sql = "UPDATE equipment SET name=%s, availableQuantity=%s, totalQuantity = %s, location=%s, category=%s, property = %s WHERE id=%s"
         #Sql initializes the operation to update the equipment database by changing the values in columns name, availableQuantity, 
         #totalQuantity etc to values
@@ -634,8 +637,9 @@ def login():
 
         mycursor.execute(sql, values) #Executes the sql command
         result = mycursor.fetchone() #Result is initialized the the result of the sql command
-        if result == None: #Checks whether the result is greater than 0. If greater than 0, that means there is a user in the database
-            return render_template("error.html", message = "Login details are incorrect") #Returns to the login page 
+        if result == None: #Checks whether the result is none, indicating that there isn't a user with the correct username and password
+            return render_template("error.html", message = "Login details are incorrect") #Returns an error message stating that login 
+            #details are incorrect
 
         else:
             session['username'] = username #session[username] locally stores the username of the user
@@ -707,9 +711,48 @@ def searchRequest():
 
         if session['role'] == "teacher": #If the user's role is a teacher, return myEquipment.html and pass parameter list, which is equal
         #to myList
-            return render_template("myEquipment.html", list=mylist)
+            return render_template("myEquipmentRequest.html", list=mylist)
         else: #If user's role not teacher, they are admin. Return requests.html and pass parameters list and roomName.
             return render_template("requests.html", list=mylist,roomName = session["roomName"])
+
+@app.route("/searchRequestTeacherEquipment", methods=['POST', 'GET']) #searchRequest function that has methods POST and GET 
+def searchRequestTeacherEquipment():
+    if request.method == "POST": #If statement that responds to a post from the user
+        name = request.form.get("searchName") #name is initialized to searchName sent by the user 
+
+        sql = "SELECT id, name, availableQuantity, location, category, property, totalQuantity FROM equipment WHERE name=%s"
+        #Initializes a sql function to select parameters id, name, availableQuantity etc from database equipment where the name matches the 
+        #user's name
+        value = [name] #value is given parameter name
+        mycursor.execute(sql, value) #Executes the sql function
+        result = mycursor.fetchall() #Result is initialized to the result of the sql function
+        
+        mylist = [] #mylist is empty 
+
+        if len(result) >0: #Checks whether the length of the result is greater than 0 to ensure that there is data in the datatable equipment
+            id_list = [] #id_list is empty
+
+            for item in result: #A for loop that adds the id of each equipment into id_list
+                id_list.append(item[0])
+            
+            if len(result) > 0: #Checks whether the length of the result is greater than 0 to ensure that there is data in the datatable 
+            #equipment
+                sql = "SELECT id, equipmentID, username, status, quantity, roomName FROM requests WHERE equipmentID=%s"
+                #Initailzies the function to select parameters id, equipmentID, username etc from database requests given the equipmentID
+                mycursor.execute (sql, id_list) #executes the sql function
+                requestResults = mycursor.fetchall() #Initializes requestResults to the resul to fthe sql function
+
+            for element in requestResults: #For loop that adds to array myList elements given the equipmentID is equal to the id of the 
+            #search request.
+                for equipment in result:
+                    if element[1] == equipment[0]: 
+                        mylist.append([element[0],equipment, element[2], element[3], element[4], element[5]])#Adds id, all quantities in 
+            
+                        #variable result (id, name, availableQuantity, location etc in line 626), username, status, quantity and roomName
+        return render_template("teacherEquipmentRequest.html", list=mylist)
+       
+
+
 
 @app.route("/signup", methods = ["POST", "GET"])
 def signup():
@@ -729,7 +772,6 @@ def signup():
             values = [username, password, role, roomName]
             mycursor.execute(sql, values)
             my_db.commit()
-            print (role)
             if role == "teacher":
                 return render_template("homeTeacher.html", user = session['username'])
             else: 
@@ -943,14 +985,13 @@ def dataAnalysis():
 
 @app.route("/dataSummary", methods= ["POST", "GET"])
 def dataSummary():
-
-    if request.method == "POST":
-        filter = request.form.get("dataFilter")
-        x =[]
-        y= []
-        yAxisFilter = request.form.get("yAxisFilter")
-        yAxisFilter = int(yAxisFilter)
-        if filter == "teacherUsername":
+    if request.method == "POST": #Considers whether the user has made a submission or not
+        filter = request.form.get("dataFilter") #Initializes filter as the submission made by the user
+        x =[] #Initializes variable x 
+        y= [] #Initializes variable x 
+        yAxisFilter = request.form.get("yAxisFilter") #Initializes yAxisFilter as the submission made by the user 
+        yAxisFilter = int(yAxisFilter) #Changes yAxisFilter into an integer
+        if filter == "teacherUsername": 
             sql = "Select teacherUsername, avg(quantity), min(quantity), max(quantity), count(id) from dataAnalysis group by teacherUsername"
         if filter == "category":
             sql = "Select category, avg(quantity), min(quantity), max(quantity), count(id) from dataAnalysis group by category"
@@ -958,34 +999,33 @@ def dataSummary():
             sql = "Select propertyType, avg(quantity), min(quantity), max(quantity), count(id) from dataAnalysis group by propertyType"
         if filter == "equipmentName":
             sql = "Select equipmentName, avg(quantity), min(quantity), max(quantity), count(id) from dataAnalysis group by equipmentName"
-            #sql = "DELETE FROM dataAnalysis WHERE id =%s" #Deletes the request since the return has been successful 
-            #values = [id] #Values is given parameter id 
-
-            #mycursor.execute(sql,values) #Commits the sql function
         mycursor.execute(sql)
-        result = mycursor.fetchall()
-
-            # category vs total count
-        for item in result:
+        result = mycursor.fetchall() 
+        for item in result: #For loop that adds item[0], which is the first element in filter. This variable depends on the above if 
+        #statement. For example, if filter is equal to teacherUsername, the first element is teacherUsername etc
             x.append(item[0])
             y.append(item[yAxisFilter])
-
         plt.bar(x,y)
         plt.xlabel(filter)
-        if yAxisFilter == 1:
+        if yAxisFilter == 1: 
             plt.ylabel("Averages")
-        if yAxisFilter == 2:
+        #Value passed from submission was 1, which corresopnds to element 1 in the sql and the submission made from 
+        #earlier; element 1 in this case is averages
+        if yAxisFilter == 2: 
             plt.ylabel("Min")
-        if yAxisFilter == 3:
+        #Value passed from submission was 2, which corresopnds to element 2 in the sql and the submission made from 
+        #earlier; element 1 in this case is min
+        if yAxisFilter == 3: 
             plt.ylabel("Max")
-        if yAxisFilter == 4:
+        #Value passed from submission was 3, which corresopnds to element 3 in the sql and the submission made from 
+        #earlier; element 1 in this case is max
+        if yAxisFilter == 4: 
             plt.ylabel("Total Count")
+        #Value passed from submission was 4, which corresopnds to element 4 in the sql and the submission made from 
+        #earlier; element 1 in this case is total count
         plt.savefig("static/images/category.png")
         plt.close()
         currentURL= "static/images/category.png"
-
-       
-
         if len(result) >0:
             return render_template("dataAnalysis.html", dataAnalysisList = result, url = currentURL)
         else:
